@@ -1,0 +1,212 @@
+/**
+ * Asua Arts - Main JavaScript
+ */
+
+document.addEventListener('DOMContentLoaded', () => {
+  initLoading();
+  initHeader();
+  initMobileMenu();
+  initHeroSlider();
+  initScrollAnimations();
+  initBackToTop();
+  initSmoothScroll();
+  initContactForm();
+});
+
+/**
+ * Loading Screen
+ */
+function initLoading() {
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const loading = document.getElementById('loading');
+      if (loading) {
+        loading.classList.add('hidden');
+      }
+    }, 1500);
+  });
+}
+
+/**
+ * Header Scroll Effect
+ */
+function initHeader() {
+  const header = document.getElementById('header');
+  if (!header) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 100) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+}
+
+/**
+ * Mobile Menu
+ */
+function initMobileMenu() {
+  const menuToggle = document.getElementById('menuToggle');
+  const nav = document.getElementById('nav');
+  if (!menuToggle || !nav) return;
+
+  menuToggle.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    nav.classList.toggle('active');
+  });
+
+  // Close menu on link click
+  nav.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      menuToggle.classList.remove('active');
+      nav.classList.remove('active');
+    });
+  });
+}
+
+/**
+ * Hero Slider
+ */
+function initHeroSlider() {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.slider-dot');
+  if (slides.length === 0) return;
+
+  let currentSlide = 0;
+  let slideInterval;
+
+  function showSlide(index) {
+    slides.forEach(slide => slide.classList.remove('active'));
+    dots.forEach(dot => dot.classList.remove('active'));
+    slides[index].classList.add('active');
+    if (dots[index]) {
+      dots[index].classList.add('active');
+    }
+  }
+
+  function nextSlide() {
+    currentSlide = (currentSlide + 1) % slides.length;
+    showSlide(currentSlide);
+  }
+
+  function startSlider() {
+    slideInterval = setInterval(nextSlide, 5000);
+  }
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      clearInterval(slideInterval);
+      currentSlide = index;
+      showSlide(currentSlide);
+      startSlider();
+    });
+  });
+
+  startSlider();
+}
+
+/**
+ * Scroll Animations (Intersection Observer)
+ */
+function initScrollAnimations() {
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => {
+    observer.observe(el);
+  });
+}
+
+/**
+ * Back to Top Button
+ */
+function initBackToTop() {
+  const backToTop = document.getElementById('backToTop');
+  if (!backToTop) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 500) {
+      backToTop.classList.add('visible');
+    } else {
+      backToTop.classList.remove('visible');
+    }
+  });
+
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+/**
+ * Smooth Scroll for Anchor Links
+ */
+function initSmoothScroll() {
+  const header = document.getElementById('header');
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href');
+      const target = document.querySelector(targetId);
+      if (target) {
+        const headerHeight = header ? header.offsetHeight : 0;
+        const targetPosition = target.offsetTop - headerHeight;
+        window.scrollTo({
+          top: targetPosition,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+}
+
+/**
+ * Contact Form Handler (FormSubmit.co)
+ */
+function initContactForm() {
+  const form = document.querySelector('.contact-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const submitButton = form.querySelector('.form-submit');
+    const originalText = submitButton.textContent;
+    submitButton.textContent = '送信中...';
+    submitButton.disabled = true;
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        alert('お問い合わせありがとうございます。内容を確認の上、担当者よりご連絡いたします。');
+        form.reset();
+      } else {
+        throw new Error('送信に失敗しました');
+      }
+    } catch (error) {
+      alert('送信に失敗しました。お手数ですが、メールにて直接お問い合わせください。');
+    } finally {
+      submitButton.textContent = originalText;
+      submitButton.disabled = false;
+    }
+  });
+}
