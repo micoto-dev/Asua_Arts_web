@@ -32,6 +32,35 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "有限会社アスアアーツ",
+    "alternateName": "Asua Arts Co., Ltd.",
+    "url": "https://asua-arts.co.jp",
+    "logo": "https://asua-arts.co.jp/images/logo.png",
+    "description": "日本の伝統文化からサブカルチャーまで幅広い分野で、人材・地域・企業をつなぎ、新たな価値を創出することで、豊かな社会づくりに貢献します。",
+    "foundingDate": "1997-09-22",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "玉川学園2-2-12",
+      "addressLocality": "町田市",
+      "addressRegion": "東京都",
+      "postalCode": "194-0041",
+      "addressCountry": "JP"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "info@asua-arts.co.jp",
+      "contactType": "customer service",
+      "availableLanguage": "Japanese"
+    },
+    "sameAs": []
+  }
+  </script>
 </head>
 <body>
   <!-- Loading Screen -->
@@ -43,21 +72,21 @@
   <header id="header">
     <div class="container">
       <div class="header-inner">
-        <a href="#" class="logo">
+        <a href="index.html" class="logo">
           <img src="images/logo.png" alt="Asua Arts">
         </a>
-        <nav id="nav">
+        <nav id="nav" aria-label="メインナビゲーション">
           <a href="#about">会社概要</a>
           <a href="#services">事業内容</a>
           <a href="#works">実績紹介</a>
           <a href="#representative">代表紹介</a>
           <a href="#contact" class="contact-btn">お問い合わせ</a>
         </nav>
-        <div class="menu-toggle" id="menuToggle">
+        <button class="menu-toggle" id="menuToggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav">
           <span></span>
           <span></span>
           <span></span>
-        </div>
+        </button>
       </div>
     </div>
   </header>
@@ -69,16 +98,16 @@
         <img src="images/hero0.png" alt="四季">
       </div>
       <div class="hero-slide">
-        <img src="images/hero1.png" alt="春">
+        <img src="images/hero1.png" alt="春" loading="lazy">
       </div>
       <div class="hero-slide">
-        <img src="images/hero2.png" alt="夏">
+        <img src="images/hero2.png" alt="夏" loading="lazy">
       </div>
       <div class="hero-slide">
-        <img src="images/hero3.png" alt="秋">
+        <img src="images/hero3.png" alt="秋" loading="lazy">
       </div>
       <div class="hero-slide">
-        <img src="images/hero4.png" alt="冬">
+        <img src="images/hero4.png" alt="冬" loading="lazy">
       </div>
     </div>
     <div class="hero-decoration"></div>
@@ -86,22 +115,22 @@
       <h1>Asua Arts</h1>
       <p>文化の力で人と社会を豊かに</p>
     </div>
-    <div class="slider-nav">
-      <span class="slider-dot active" data-index="0"></span>
-      <span class="slider-dot" data-index="1"></span>
-      <span class="slider-dot" data-index="2"></span>
-      <span class="slider-dot" data-index="3"></span>
-      <span class="slider-dot" data-index="4"></span>
+    <div class="slider-nav" role="tablist" aria-label="ヒーロースライダー">
+      <button class="slider-dot active" data-index="0" role="tab" aria-selected="true" aria-label="スライド1"></button>
+      <button class="slider-dot" data-index="1" role="tab" aria-selected="false" aria-label="スライド2"></button>
+      <button class="slider-dot" data-index="2" role="tab" aria-selected="false" aria-label="スライド3"></button>
+      <button class="slider-dot" data-index="3" role="tab" aria-selected="false" aria-label="スライド4"></button>
+      <button class="slider-dot" data-index="4" role="tab" aria-selected="false" aria-label="スライド5"></button>
     </div>
     <div class="scroll-indicator">SCROLL</div>
   </section>
 
   <!-- About Section -->
-  <section class="about section" id="about">
+  <section class="about section" id="about" aria-labelledby="about-title">
     <div class="container">
       <div class="section-header fade-in">
         <p class="section-title-en">About Us</p>
-        <h2 class="section-title-jp">会社概要</h2>
+        <h2 class="section-title-jp" id="about-title">会社概要</h2>
         <div class="gold-line"></div>
       </div>
       <div class="about-content">
@@ -115,18 +144,18 @@
           </p>
         </div>
         <div class="about-image fade-in-right">
-          <img src="images/about.png" alt="日本文化イメージ">
+          <img src="images/about.png" alt="日本文化イメージ" loading="lazy">
         </div>
       </div>
     </div>
   </section>
 
   <!-- Services Section -->
-  <section class="services section" id="services">
+  <section class="services section" id="services" aria-labelledby="services-title">
     <div class="container">
       <div class="section-header fade-in">
         <p class="section-title-en">Services</p>
-        <h2 class="section-title-jp">事業内容</h2>
+        <h2 class="section-title-jp" id="services-title">事業内容</h2>
         <div class="gold-line"></div>
       </div>
       <div class="services-grid">
@@ -178,51 +207,51 @@
   </section>
 
   <!-- Works Section -->
-  <section class="works section" id="works">
+  <section class="works section" id="works" aria-labelledby="works-title">
     <div class="container">
       <div class="section-header fade-in">
         <p class="section-title-en">Works</p>
-        <h2 class="section-title-jp">実績紹介</h2>
+        <h2 class="section-title-jp" id="works-title">実績紹介</h2>
         <div class="gold-line"></div>
       </div>
       <div class="works-grid">
         <div class="work-item fade-in" style="transition-delay: 0.1s;">
-          <img src="images/work1.png" alt="伝統文化講演会">
+          <img src="images/work1.png" alt="伝統文化講演会" loading="lazy">
           <div class="work-overlay">
             <h4>伝統文化講演会・パーティー</h4>
             <p>2014年より年間約4回開催</p>
           </div>
         </div>
         <div class="work-item fade-in" style="transition-delay: 0.15s;">
-          <img src="images/work2.png" alt="企業記念式典">
+          <img src="images/work2.png" alt="企業記念式典" loading="lazy">
           <div class="work-overlay">
             <h4>企業記念式典</h4>
             <p>歌舞伎俳優によるトークショー</p>
           </div>
         </div>
         <div class="work-item fade-in" style="transition-delay: 0.2s;">
-          <img src="images/work3.png" alt="地域イベント">
+          <img src="images/work3.png" alt="地域イベント" loading="lazy">
           <div class="work-overlay">
             <h4>地域イベント制作・運営</h4>
             <p>商店街・自治体との連携事業</p>
           </div>
         </div>
         <div class="work-item fade-in" style="transition-delay: 0.25s;">
-          <img src="images/work4.png" alt="企業パーティー">
+          <img src="images/work4.png" alt="企業パーティー" loading="lazy">
           <div class="work-overlay">
             <h4>企業・レストランイベント</h4>
             <p>進行・運営をトータルサポート</p>
           </div>
         </div>
         <div class="work-item fade-in" style="transition-delay: 0.3s;">
-          <img src="images/work5.png" alt="テーマパーク">
+          <img src="images/work5.png" alt="テーマパーク" loading="lazy">
           <div class="work-overlay">
             <h4>テーマパーク謎解きイベント</h4>
             <p>中伊豆ワイナリーヒルズ</p>
           </div>
         </div>
         <div class="work-item fade-in" style="transition-delay: 0.35s;">
-          <img src="images/work6.png" alt="アニメイベント">
+          <img src="images/work6.png" alt="アニメイベント" loading="lazy">
           <div class="work-overlay">
             <h4>アニメ・声優イベント</h4>
             <p>ラブライブスーパースター</p>
@@ -233,16 +262,16 @@
   </section>
 
   <!-- Representative Section -->
-  <section class="representative section" id="representative">
+  <section class="representative section" id="representative" aria-labelledby="representative-title">
     <div class="container">
       <div class="section-header fade-in">
         <p class="section-title-en">Message</p>
-        <h2 class="section-title-jp">代表紹介</h2>
+        <h2 class="section-title-jp" id="representative-title">代表紹介</h2>
         <div class="gold-line"></div>
       </div>
       <div class="representative-content">
         <div class="representative-image fade-in-left">
-          <img src="images/representative.png" alt="代表取締役 片岡暁孝">
+          <img src="images/representative.png" alt="代表取締役 片岡暁孝" loading="lazy">
         </div>
         <div class="representative-info fade-in-right">
           <h3>片岡 暁孝<span style="font-size: 0.875rem; font-weight: 400; margin-left: 15px;">（カタオカ アキタカ）</span></h3>
@@ -270,11 +299,11 @@
   </section>
 
   <!-- Company Info Section -->
-  <section class="company section" id="company">
+  <section class="company section" id="company" aria-labelledby="company-title">
     <div class="container">
       <div class="section-header fade-in">
         <p class="section-title-en">Company</p>
-        <h2 class="section-title-jp">会社情報</h2>
+        <h2 class="section-title-jp" id="company-title">会社情報</h2>
         <div class="gold-line"></div>
       </div>
       <dl class="company-table fade-in">
@@ -319,11 +348,11 @@
   </section>
 
   <!-- Contact Section -->
-  <section class="contact section" id="contact">
+  <section class="contact section" id="contact" aria-labelledby="contact-title">
     <div class="container">
       <div class="section-header fade-in">
         <p class="section-title-en">Contact</p>
-        <h2 class="section-title-jp">お問い合わせ</h2>
+        <h2 class="section-title-jp" id="contact-title">お問い合わせ</h2>
         <div class="gold-line"></div>
       </div>
       <div class="contact-wrapper">

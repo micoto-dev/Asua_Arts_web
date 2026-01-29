@@ -51,9 +51,15 @@ function initMobileMenu() {
   const nav = document.getElementById('nav');
   if (!menuToggle || !nav) return;
 
+  function updateAriaExpanded(isOpen) {
+    menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    menuToggle.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
+  }
+
   menuToggle.addEventListener('click', () => {
-    menuToggle.classList.toggle('active');
+    const isOpen = menuToggle.classList.toggle('active');
     nav.classList.toggle('active');
+    updateAriaExpanded(isOpen);
   });
 
   // Close menu on link click
@@ -61,6 +67,7 @@ function initMobileMenu() {
     link.addEventListener('click', () => {
       menuToggle.classList.remove('active');
       nav.classList.remove('active');
+      updateAriaExpanded(false);
     });
   });
 }
@@ -78,10 +85,14 @@ function initHeroSlider() {
 
   function showSlide(index) {
     slides.forEach(slide => slide.classList.remove('active'));
-    dots.forEach(dot => dot.classList.remove('active'));
+    dots.forEach(dot => {
+      dot.classList.remove('active');
+      dot.setAttribute('aria-selected', 'false');
+    });
     slides[index].classList.add('active');
     if (dots[index]) {
       dots[index].classList.add('active');
+      dots[index].setAttribute('aria-selected', 'true');
     }
   }
 
