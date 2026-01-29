@@ -124,7 +124,7 @@ header {
 header.scrolled {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
-  padding: 12px 0;
+  padding: 5px 0;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
 }
 
@@ -140,10 +140,9 @@ nav {
 
 .logo {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 12px;
   text-decoration: none;
-  margin-top: -20px;
 }
 
 .logo img {
@@ -152,14 +151,14 @@ nav {
 }
 
 header.scrolled .logo img {
-  height: 120px;
+  height: 110px;
+  margin: -15px 0;
 }
 
 nav#nav {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 40px;
-  margin-top: -20px;
 }
 
 nav a {
@@ -441,23 +440,16 @@ nav a:hover::after {
 
 .about-image {
   position: relative;
-}
-
-.about-image::before {
-  content: '';
-  position: absolute;
-  top: -20px;
-  right: -20px;
-  width: 100%;
-  height: 100%;
-  border: 1px solid var(--gold);
-  z-index: -1;
+  line-height: 0;
 }
 
 .about-image img {
   width: 100%;
-  height: 450px;
+  height: auto;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
+  display: block;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
 }
 
 /* ===== Services Section ===== */
@@ -646,25 +638,18 @@ nav a:hover::after {
 
 .representative-image {
   position: relative;
-}
-
-.representative-image::after {
-  content: '';
-  position: absolute;
-  bottom: -15px;
-  left: -15px;
-  width: 100%;
-  height: 100%;
-  background: var(--gold);
-  opacity: 0.1;
-  z-index: -1;
+  line-height: 0;
 }
 
 .representative-image img {
   width: 100%;
-  height: 450px;
+  height: auto;
+  aspect-ratio: 1 / 1;
   object-fit: cover;
+  object-position: center top;
   filter: grayscale(20%);
+  display: block;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
 }
 
 .representative-info h3 {
@@ -913,8 +898,6 @@ footer {
 
 .footer-logo img {
   height: 200px;
-  filter: brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(5deg);
-  opacity: 0.9;
 }
 
 .footer-nav {
@@ -1021,9 +1004,28 @@ footer {
 }
 
 /* ===== Responsive ===== */
+
+/* タブレット（1024px以下） */
 @media (max-width: 1024px) {
   .section {
     padding: 80px 0;
+  }
+
+  .logo img {
+    height: 140px;
+  }
+
+  header.scrolled .logo img {
+    height: 80px;
+  }
+
+  nav#nav {
+    gap: 25px;
+    margin-top: -15px;
+  }
+
+  nav a {
+    font-size: 0.9rem;
   }
 
   .about-content {
@@ -1033,6 +1035,8 @@ footer {
 
   .about-image {
     order: -1;
+    max-width: 500px;
+    margin: 0 auto;
   }
 
   .services-grid {
@@ -1059,8 +1063,31 @@ footer {
   }
 }
 
+/* タブレット・スマホ（768px以下） */
 @media (max-width: 768px) {
-  nav {
+  header {
+    padding: 15px 0;
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  .header-inner {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .logo {
+    margin-top: 0;
+  }
+
+  .logo img {
+    height: 80px;
+  }
+
+  header.scrolled .logo img {
+    height: 60px;
+  }
+
+  nav#nav {
     position: fixed;
     top: 0;
     right: -100%;
@@ -1072,12 +1099,17 @@ footer {
     justify-content: center;
     align-items: center;
     gap: 30px;
+    margin-top: 0;
     transition: var(--transition);
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
   }
 
-  nav.active {
+  nav#nav.active {
     right: 0;
+  }
+
+  nav a {
+    font-size: 1rem;
   }
 
   .menu-toggle {
@@ -1090,16 +1122,37 @@ footer {
 
   .hero-content h1 {
     font-size: 2rem;
+    letter-spacing: 0.15em;
+  }
+
+  .hero-content p {
+    font-size: 0.9rem;
   }
 
   .hero-decoration {
-    width: 350px;
-    height: 350px;
+    width: 300px;
+    height: 300px;
   }
 
   .hero-decoration::before {
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
+  }
+
+  .slider-nav {
+    bottom: 100px;
+  }
+
+  .section-header {
+    margin-bottom: 50px;
+  }
+
+  .section-title-jp {
+    font-size: 1.5rem;
+  }
+
+  .about-text h3 {
+    font-size: 1.4rem;
   }
 
   .services-grid {
@@ -1114,6 +1167,14 @@ footer {
     grid-template-columns: 1fr;
   }
 
+  .representative-info h3 {
+    font-size: 1.25rem;
+  }
+
+  .representative-info .career li {
+    font-size: 0.8rem;
+  }
+
   .company-row {
     grid-template-columns: 1fr;
   }
@@ -1126,8 +1187,16 @@ footer {
     padding-top: 5px;
   }
 
+  .contact-info h3 {
+    font-size: 1.25rem;
+  }
+
   .contact-form {
     padding: 30px 20px;
+  }
+
+  .footer-logo img {
+    height: 100px;
   }
 
   .footer-content {
@@ -1140,11 +1209,159 @@ footer {
   .footer-nav {
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 15px;
+  }
+
+  .footer-nav a {
+    font-size: 0.8rem;
   }
 
   .scroll-indicator {
     display: none;
+  }
+
+  .loading-logo {
+    width: 250px;
+  }
+}
+
+/* スマホ（480px以下） */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+
+  .logo img {
+    height: 60px;
+  }
+
+  header.scrolled .logo img {
+    height: 50px;
+  }
+
+  .hero-content h1 {
+    font-size: 1.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  .hero-content p {
+    font-size: 0.8rem;
+  }
+
+  .hero-decoration {
+    width: 250px;
+    height: 250px;
+  }
+
+  .hero-decoration::before {
+    width: 180px;
+    height: 180px;
+  }
+
+  .section-title-en {
+    font-size: 0.75rem;
+  }
+
+  .section-title-jp {
+    font-size: 1.25rem;
+  }
+
+  .about-text h3 {
+    font-size: 1.2rem;
+  }
+
+  .about-text p {
+    font-size: 0.9rem;
+  }
+
+  .service-card {
+    padding: 30px 20px;
+  }
+
+  .service-number {
+    font-size: 2.5rem;
+  }
+
+  .service-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .service-card p {
+    font-size: 0.875rem;
+  }
+
+  .work-overlay h4 {
+    font-size: 1rem;
+  }
+
+  .work-overlay p {
+    font-size: 0.75rem;
+  }
+
+  .representative-info h3 {
+    font-size: 1.1rem;
+  }
+
+  .representative-info h3 span {
+    display: block;
+    margin-left: 0 !important;
+    margin-top: 5px;
+  }
+
+  .representative-info .message {
+    font-size: 0.9rem;
+  }
+
+  .company-row dt,
+  .company-row dd {
+    font-size: 0.85rem;
+  }
+
+  .contact-info p {
+    font-size: 0.9rem;
+  }
+
+  .form-group label {
+    font-size: 0.8rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-size: 0.9rem;
+    padding: 12px 14px;
+  }
+
+  .form-submit {
+    font-size: 0.9rem;
+    padding: 16px;
+  }
+
+  .footer-logo img {
+    height: 80px;
+  }
+
+  .footer-nav {
+    gap: 12px;
+  }
+
+  .footer-nav a {
+    font-size: 0.75rem;
+  }
+
+  .back-to-top {
+    width: 45px;
+    height: 45px;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .loading-logo {
+    width: 200px;
   }
 }
 
