@@ -58,4 +58,4 @@ Vercelでホスティング予定
 
 ## ライセンス
 
-© 2025 Asua Arts Co., Ltd. All Rights Reserved.
+© 2026 Asua Arts Co., Ltd. All Rights Reserved.
