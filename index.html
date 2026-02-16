@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>有限会社アスアアーツ | 文化とエンターテインメントの力で人と社会を豊かに</title>
+  <meta name="description" content="アスアアーツは、日本の伝統文化からサブカルチャーまで幅広い分野で、人材・地域・企業をつなぎ、新たな価値を創出することで、豊かな社会づくりに貢献します。">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="apple-touch-icon" href="images/logo.png">
+
+  <!-- OGP (Open Graph Protocol) -->
+  <meta property="og:title" content="有限会社アスアアーツ | 文化とエンターテインメントの力で人と社会を豊かに">
+  <meta property="og:description" content="アスアアーツは、日本の伝統文化からサブカルチャーまで幅広い分野で、人材・地域・企業をつなぎ、新たな価値を創出することで、豊かな社会づくりに貢献します。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://asua-arts.co.jp/">
+  <meta property="og:image" content="https://asua-arts.co.jp/images/logo.png">
+  <meta property="og:site_name" content="有限会社アスアアーツ">
+  <meta property="og:locale" content="ja_JP">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="有限会社アスアアーツ | 文化とエンターテインメントの力で人と社会を豊かに">
+  <meta name="twitter:description" content="アスアアーツは、日本の伝統文化からサブカルチャーまで幅広い分野で、人材・地域・企業をつなぎ、新たな価値を創出することで、豊かな社会づくりに貢献します。">
+  <meta name="twitter:image" content="https://asua-arts.co.jp/images/logo.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- formrun -->
+  <script src="https://sdk.form.run/js/v2/embed.js"></script>
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "有限会社アスアアーツ",
+    "alternateName": "Asua Arts Co., Ltd.",
+    "url": "https://asua-arts.co.jp",
+    "logo": "https://asua-arts.co.jp/images/logo.png",
+    "description": "日本の伝統文化からサブカルチャーまで幅広い分野で、人材・地域・企業をつなぎ、新たな価値を創出することで、豊かな社会づくりに貢献します。",
+    "foundingDate": "1997-09-22",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "玉川学園2-2-12",
+      "addressLocality": "町田市",
+      "addressRegion": "東京都",
+      "postalCode": "194-0041",
+      "addressCountry": "JP"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "info@asuaarts.com",
+      "contactType": "customer service",
+      "availableLanguage": "Japanese"
+    },
+    "sameAs": []
+  }
+  </script>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading" id="loading">
+    <img src="images/logo.png" alt="Asua Arts" class="loading-logo">
+  </div>
+
+  <!-- Header -->
+  <header id="header">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="Asua Arts">
+        </a>
+        <nav id="nav" aria-label="メインナビゲーション">
+          <a href="#about">会社概要</a>
+          <a href="#services">事業内容</a>
+          <a href="#works">実績紹介</a>
+          <a href="#representative">代表紹介</a>
+          <a href="#contact" class="contact-btn">お問い合わせ</a>
+        </nav>
+        <button class="menu-toggle" id="menuToggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-slider">
+      <div class="hero-slide active">
+        <img src="images/hero0.png" alt="四季">
+      </div>
+      <div class="hero-slide">
+        <img src="images/hero1.png" alt="春" loading="lazy">
+      </div>
+      <div class="hero-slide">
+        <img src="images/hero2.png" alt="夏" loading="lazy">
+      </div>
+      <div class="hero-slide">
+        <img src="images/hero3.png" alt="秋" loading="lazy">
+      </div>
+      <div class="hero-slide">
+        <img src="images/hero4.png" alt="冬" loading="lazy">
+      </div>
+    </div>
+    <div class="hero-decoration"></div>
+    <div class="hero-content">
+      <h1>Asua Arts</h1>
+      <p>文化の力で人と社会を豊かに</p>
+    </div>
+    <div class="slider-nav" role="tablist" aria-label="ヒーロースライダー">
+      <button class="slider-dot active" data-index="0" role="tab" aria-selected="true" aria-label="スライド1"></button>
+      <button class="slider-dot" data-index="1" role="tab" aria-selected="false" aria-label="スライド2"></button>
+      <button class="slider-dot" data-index="2" role="tab" aria-selected="false" aria-label="スライド3"></button>
+      <button class="slider-dot" data-index="3" role="tab" aria-selected="false" aria-label="スライド4"></button>
+      <button class="slider-dot" data-index="4" role="tab" aria-selected="false" aria-label="スライド5"></button>
+    </div>
+    <div class="scroll-indicator">SCROLL</div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about section" id="about" aria-labelledby="about-title">
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="section-title-en">About Us</p>
+        <h2 class="section-title-jp" id="about-title">会社概要</h2>
+        <div class="gold-line"></div>
+      </div>
+      <div class="about-content">
+        <div class="about-text fade-in-left">
+          <h3>伝統と革新を結び、<br>未来へつなぐ架け橋として</h3>
+          <p>
+            アスアアーツは1997年の創業以来、日本の伝統文化を軸に事業を展開してまいりました。歌舞伎、雅楽、花柳界、着付、狂言などの伝統芸能に加え、アニメ・声優イベントなどのサブカルチャー分野まで幅広く手掛けています。
+          </p>
+          <p>
+            私たちは単なる文化の保存ではなく、現代社会における新たな価値創造を目指しています。伝統と革新、地域と企業、人と文化をつなぐ架け橋として、豊かな社会づくりに貢献してまいります。
+          </p>
+        </div>
+        <div class="about-image fade-in-right">
+          <img src="images/about.png" alt="日本文化イメージ" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services section" id="services" aria-labelledby="services-title">
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="section-title-en">Services</p>
+        <h2 class="section-title-jp" id="services-title">事業内容</h2>
+        <div class="gold-line"></div>
+      </div>
+      <div class="services-grid">
+        <div class="service-card fade-in" style="transition-delay: 0.1s;">
+          <div class="service-image">
+            <img src="images/service1.jpg" alt="教育事業" loading="lazy">
+          </div>
+          <h3>教育事業</h3>
+          <p>伝統文化を中心とした一流の人材による教育コンテンツの提供</p>
+        </div>
+        <div class="service-card fade-in" style="transition-delay: 0.2s;">
+          <div class="service-image">
+            <img src="images/service2.png" alt="各種会場の手配" loading="lazy">
+          </div>
+          <h3>各種会場の手配</h3>
+          <p>レストラン会場をお探しの方へパーティー会場や料理の手配</p>
+        </div>
+        <div class="service-card fade-in" style="transition-delay: 0.3s;">
+          <div class="service-image">
+            <img src="images/service3.jpg" alt="イベント企画・制作運営" loading="lazy">
+          </div>
+          <h3>イベント企画・制作運営</h3>
+          <p>自治体、商店街、観光施設などと連携しイベントのプロデュース、プロモーション</p>
+        </div>
+        <div class="service-card fade-in" style="transition-delay: 0.4s;">
+          <div class="service-image">
+            <img src="images/service4.jpg" alt="インバウンド向けコンテンツ" loading="lazy">
+          </div>
+          <h3>インバウンド向けコンテンツ</h3>
+          <p>中伊豆ワイナリーツアー、芸者、寿司体験など海外の方に向けたコンテンツを提供</p>
+        </div>
+        <div class="service-card fade-in" style="transition-delay: 0.5s;">
+          <div class="service-image">
+            <img src="images/service5.jpg" alt="着付け・ヘアメイク" loading="lazy">
+          </div>
+          <h3>着付け・ヘアメイク</h3>
+          <p>撮影から式典まで、ご要望に合わせたサービスを提供</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Works Section -->
+  <section class="works section" id="works" aria-labelledby="works-title">
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="section-title-en">Works</p>
+        <h2 class="section-title-jp" id="works-title">実績紹介</h2>
+        <div class="gold-line"></div>
+      </div>
+      <div class="works-grid">
+        <div class="work-item fade-in" style="transition-delay: 0.1s;">
+          <img src="images/work1.jpg" alt="伝統文化講演会" loading="lazy">
+          <div class="work-overlay">
+            <h4>伝統文化講演会・パーティー</h4>
+            <p>2014年より年間約4回開催</p>
+          </div>
+        </div>
+        <div class="work-item fade-in" style="transition-delay: 0.15s;">
+          <img src="images/work2.png" alt="企業記念式典" loading="lazy">
+          <div class="work-overlay">
+            <h4>企業記念式典</h4>
+            <p>歌舞伎俳優によるトークショー</p>
+          </div>
+        </div>
+        <div class="work-item fade-in" style="transition-delay: 0.2s;">
+          <img src="images/work3.png" alt="地域イベント" loading="lazy">
+          <div class="work-overlay">
+            <h4>地域イベント制作・運営</h4>
+            <p>商店街・自治体との連携事業</p>
+          </div>
+        </div>
+        <div class="work-item fade-in" style="transition-delay: 0.25s;">
+          <img src="images/work4.png" alt="企業パーティー" loading="lazy">
+          <div class="work-overlay">
+            <h4>企業・レストランイベント</h4>
+            <p>進行・運営をトータルサポート</p>
+          </div>
+        </div>
+        <div class="work-item fade-in" style="transition-delay: 0.3s;">
+          <img src="images/work5.png" alt="テーマパーク" loading="lazy">
+          <div class="work-overlay">
+            <h4>テーマパーク謎解きイベント</h4>
+            <p>中伊豆ワイナリーヒルズ</p>
+          </div>
+        </div>
+        <div class="work-item fade-in" style="transition-delay: 0.35s;">
+          <img src="images/work6.png" alt="アニメイベント" loading="lazy">
+          <div class="work-overlay">
+            <h4>アニメ・声優イベント</h4>
+            <p>ラブライブスーパースター</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Representative Section -->
+  <section class="representative section" id="representative" aria-labelledby="representative-title">
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="section-title-en">Message</p>
+        <h2 class="section-title-jp" id="representative-title">代表紹介</h2>
+        <div class="gold-line"></div>
+      </div>
+      <div class="representative-content">
+        <div class="representative-image fade-in-left">
+          <img src="images/representative.jpg" alt="社長執行役員 CEO 神咲ゆり" loading="lazy">
+        </div>
+        <div class="representative-info fade-in-right">
+          <h3>神咲 ゆり<span style="font-size: 0.875rem; font-weight: 400; margin-left: 15px;">（Kanzaki Yuri）</span></h3>
+          <p class="position">社長執行役員 CEO</p>
+          <p class="message">
+            ここにテキストを記載
+          </p>
+          <div class="career">
+            <h4>経歴</h4>
+            <ul>
+              <li>着付師</li>
+              <li>一級着付講師</li>
+              <li>着物コンサルタント</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="representative-content representative-reverse" style="margin-top: 80px;">
+        <div class="representative-image fade-in-left">
+          <img src="images/representative.png" alt="代表取締役社長 片岡暁孝" loading="lazy">
+        </div>
+        <div class="representative-info fade-in-right">
+          <h3>片岡 暁孝<span style="font-size: 0.875rem; font-weight: 400; margin-left: 15px;">（Kataoka Akitaka）</span></h3>
+          <p class="position">代表取締役社長</p>
+          <p class="message">
+            歌舞伎俳優の家系に生まれ、祖父・叔父ともに人間国宝という環境で育ちました。15歳で単身渡米し9年間の留学を経験。ハリウッド映画への出演や松竹エンタテインメントでの活動を通じて、日本文化の素晴らしさと可能性を再認識しました。
+          </p>
+          <p class="message">
+            現在は伝統文化のプロデューサーとして、その価値を現代社会に届ける架け橋となることを使命としています。日本文化の力で、人と社会を豊かにする。その想いを胸に、これからも挑戦を続けてまいります。
+          </p>
+          <div class="career">
+            <h4>経歴</h4>
+            <ul>
+              <li>歌舞伎俳優（人間国宝）13代目・15代目片岡仁左衛門を祖父・叔父に持つ</li>
+              <li>Universal Motion Picture「THE HUNTED」でハリウッドデビュー</li>
+              <li>松竹エンタテインメントにて時代劇・和物作品に出演</li>
+              <li>渋谷区共催で日本伝統文化のプロデュース公演を開催</li>
+              <li>シダックス株式会社 SDGs研究所所属</li>
+              <li>渋谷公園通商店街振興組合 理事</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Company Info Section -->
+  <section class="company section" id="company" aria-labelledby="company-title">
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="section-title-en">Company</p>
+        <h2 class="section-title-jp" id="company-title">会社情報</h2>
+        <div class="gold-line"></div>
+      </div>
+      <dl class="company-table fade-in">
+        <div class="company-row">
+          <dt>会社名</dt>
+          <dd>有限会社アスアアーツ（Asua Arts Co., Ltd.）</dd>
+        </div>
+        <div class="company-row">
+          <dt>設立</dt>
+          <dd>1997年（平成9年）9月22日</dd>
+        </div>
+        <div class="company-row">
+          <dt>代表者</dt>
+          <dd>神咲ゆり（Kanzaki Yuri）</dd>
+        </div>
+        <div class="company-row">
+          <dt>所在地</dt>
+          <dd>〒194-0041 東京都町田市玉川学園2-2-12</dd>
+        </div>
+        <div class="company-row">
+          <dt>資本金</dt>
+          <dd>300万円</dd>
+        </div>
+        <div class="company-row">
+          <dt>主な取引先</dt>
+          <dd>シダックス株式会社、シダックス大新東ヒューマンサービス株式会社、シダックス中伊豆ワイナリーヒルズ株式会社、東急リゾーツ＆ステイ株式会社、株式会社ハクビ、株式会社まるやま、渋谷公園通商店街振興組合、株式会社Onigiri+ など</dd>
+        </div>
+        <div class="company-row">
+          <dt>事業内容</dt>
+          <dd>
+            ・各種舞台公演やリサイタルなどイベント企画・制作・演出・プロデュース・コンサルティング業務<br>
+            ・専門家や講師の派遣・マネージメント<br>
+            ・行政機関、地域振興、文化振興事業、国際交流事業の企画運営<br>
+            ・テレビ、ラジオ等マスメディアへの出演者派遣業務<br>
+            ・劇場、ホール、施設の管理・運営<br>
+            ・公演などのチケット販売<br>
+            ・輸出入業及び卸小売業
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact section" id="contact" aria-labelledby="contact-title">
+    <div class="container">
+      <div class="section-header fade-in">
+        <p class="section-title-en">Contact</p>
+        <h2 class="section-title-jp" id="contact-title">お問い合わせ</h2>
+        <div class="gold-line"></div>
+      </div>
+      <div class="formrun-embed fade-in"
+        data-formrun-form="@info-ywATOCSES34NMbCdc8mP"
+        data-formrun-redirect="true"
+      >
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="images/logo.png" alt="Asua Arts">
+        </div>
+        <nav class="footer-nav">
+          <a href="#about">会社概要</a>
+          <a href="#services">事業内容</a>
+          <a href="#works">実績紹介</a>
+          <a href="#representative">代表紹介</a>
+          <a href="#contact">お問い合わせ</a>
+          <a href="privacy.html">プライバシーポリシー</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Asua Arts Co., Ltd. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop">
+    <svg viewBox="0 0 24 24">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <!-- JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>
