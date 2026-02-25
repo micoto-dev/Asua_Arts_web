@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>ニュース管理 | アスアアーツ</title>
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #C9A227;
+      --gold-light: #D4B34A;
+      --gold-dark: #A68620;
+      --gold-pale: #F5EED6;
+      --white: #FEFEFE;
+      --off-white: #FAF9F7;
+      --cream: #F7F5F0;
+      --text-dark: #2C2C2C;
+      --text-medium: #5A5A5A;
+      --text-light: #8A8A8A;
+      --border-light: rgba(201, 162, 39, 0.2);
+      --font-jp: 'Shippori Mincho', serif;
+      --font-en: 'Cormorant Garamond', serif;
+      --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      --danger: #C75050;
+      --danger-dark: #A63E3E;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-jp);
+      color: var(--text-dark);
+      background: var(--cream);
+      line-height: 1.8;
+      min-height: 100vh;
+    }
+
+    /* ===== Login Screen ===== */
+    .login-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .login-box {
+      background: var(--white);
+      padding: 60px 50px;
+      border-radius: 4px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+
+    .login-box img {
+      height: 80px;
+      margin-bottom: 30px;
+    }
+
+    .login-box h1 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+
+    .login-box p {
+      font-size: 0.8125rem;
+      color: var(--text-light);
+      margin-bottom: 30px;
+    }
+
+    .login-box input[type="password"] {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: var(--font-jp);
+      font-size: 1rem;
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+      background: var(--white);
+      transition: var(--transition);
+      margin-bottom: 20px;
+    }
+
+    .login-box input[type="password"]:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.1);
+    }
+
+    .login-error {
+      color: var(--danger);
+      font-size: 0.8125rem;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 32px;
+      font-family: var(--font-jp);
+      font-size: 0.9375rem;
+      letter-spacing: 0.1em;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: var(--gold);
+      color: var(--white);
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      background: var(--gold-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(201, 162, 39, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--cream);
+      color: var(--text-dark);
+      border: 1px solid var(--border-light);
+    }
+
+    .btn-secondary:hover {
+      background: var(--gold-pale);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: var(--white);
+    }
+
+    .btn-danger:hover {
+      background: var(--danger-dark);
+    }
+
+    .btn-sm {
+      padding: 6px 16px;
+      font-size: 0.8125rem;
+    }
+
+    /* ===== Admin Layout ===== */
+    .admin-screen {
+      display: none;
+    }
+
+    .admin-header {
+      background: var(--white);
+      padding: 15px 0;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .admin-header-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .admin-header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .admin-header-left img {
+      height: 50px;
+    }
+
+    .admin-header-left h1 {
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--text-dark);
+    }
+
+    .admin-header-right {
+      display: flex;
+      gap: 10px;
+    }
+
+    .admin-main {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* ===== Toolbar ===== */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .toolbar h2 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+    }
+
+    .toolbar-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* ===== News Table ===== */
+    .news-table {
+      width: 100%;
+      background: var(--white);
+      border-radius: 4px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+    }
+
+    .news-table-header {
+      display: grid;
+      grid-template-columns: 110px 90px 1fr 120px;
+      gap: 15px;
+      padding: 14px 24px;
+      background: var(--text-dark);
+      color: var(--white);
+      font-size: 0.8125rem;
+      letter-spacing: 0.1em;
+      font-weight: 500;
+    }
+
+    .news-table-row {
+      display: grid;
+      grid-template-columns: 110px 90px 1fr 120px;
+      gap: 15px;
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      align-items: center;
+      transition: var(--transition);
+    }
+
+    .news-table-row:hover {
+      background: var(--off-white);
+    }
+
+    .news-table-row .date {
+      font-family: var(--font-en);
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+
+    .news-table-row .category {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      padding: 2px 10px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      border-radius: 2px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .news-table-row .title {
+      font-size: 0.9375rem;
+      font-weight: 500;
+    }
+
+    .news-table-row .actions {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .news-table-empty {
+      padding: 60px 24px;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.9375rem;
+    }
+
+    /* ===== Modal ===== */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: 4px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      padding: 24px 30px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.125rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-light);
+      padding: 5px;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: var(--text-dark);
+    }
+
+    .modal-body {
+      padding: 30px;
+    }
+
+    .modal-footer {
+      padding: 20px 30px;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    /* ===== Form ===== */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8125rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      font-family: var(--font-jp);
+      font-size: 0.9375rem;
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+      background: var(--white);
+      transition: var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.1);
+    }
+
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%235A5A5A' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      cursor: pointer;
+    }
+
+    /* ===== Confirm Dialog ===== */
+    .confirm-dialog .modal {
+      max-width: 400px;
+    }
+
+    .confirm-dialog .modal-body {
+      text-align: center;
+    }
+
+    .confirm-dialog .modal-body p {
+      font-size: 0.9375rem;
+      color: var(--text-medium);
+    }
+
+    .confirm-dialog .modal-footer {
+      justify-content: center;
+    }
+
+    /* ===== Toast ===== */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--text-dark);
+      color: var(--white);
+      padding: 14px 24px;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      letter-spacing: 0.05em;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 2000;
+    }
+
+    .toast.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .login-box {
+        padding: 40px 30px;
+      }
+
+      .admin-header-left h1 {
+        font-size: 0.875rem;
+      }
+
+      .toolbar {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+      }
+
+      .toolbar-actions {
+        justify-content: flex-end;
+      }
+
+      .news-table-header {
+        display: none;
+      }
+
+      .news-table-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 16px;
+      }
+
+      .news-table-row .actions {
+        justify-content: flex-start;
+        margin-top: 5px;
+      }
+
+      .modal-body {
+        padding: 20px;
+      }
+
+      .modal-header {
+        padding: 18px 20px;
+      }
+
+      .modal-footer {
+        padding: 15px 20px;
+      }
+
+      .admin-header-right .btn {
+        padding: 8px 14px;
+        font-size: 0.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .admin-header-left img {
+        height: 35px;
+      }
+
+      .admin-header-left h1 {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-box">
+      <img src="images/logo.png" alt="Asua Arts">
+      <h1>ニュース管理</h1>
+      <p>管理者パスワードを入力してください</p>
+      <p class="login-error" id="loginError">パスワードが正しくありません</p>
+      <form id="loginForm">
+        <input type="password" id="passwordInput" placeholder="パスワード" autocomplete="current-password" required>
+        <button type="submit" class="btn btn-primary">ログイン</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Screen -->
+  <div class="admin-screen" id="adminScreen">
+    <!-- Header -->
+    <div class="admin-header">
+      <div class="admin-header-inner">
+        <div class="admin-header-left">
+          <img src="images/logo.png" alt="Asua Arts">
+          <h1>ニュース管理</h1>
+        </div>
+        <div class="admin-header-right">
+          <button class="btn btn-secondary btn-sm" id="btnImport">JSONインポート</button>
+          <button class="btn btn-primary btn-sm" id="btnExport">JSONダウンロード</button>
+          <button class="btn btn-sm" id="btnLogout" style="background: none; color: var(--text-light);">ログアウト</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+      <div class="toolbar">
+        <h2>記事一覧</h2>
+        <div class="toolbar-actions">
+          <button class="btn btn-primary btn-sm" id="btnNewArticle">新規作成</button>
+        </div>
+      </div>
+
+      <div class="news-table">
+        <div class="news-table-header">
+          <span>日付</span>
+          <span>カテゴリ</span>
+          <span>タイトル</span>
+          <span></span>
+        </div>
+        <div id="newsTableBody">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal-overlay" id="editModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="editModalTitle">記事を作成</h3>
+        <button class="modal-close" id="editModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="articleForm">
+          <input type="hidden" id="articleId">
+          <div class="form-group">
+            <label>日付</label>
+            <input type="date" id="articleDate" required>
+          </div>
+          <div class="form-group">
+            <label>カテゴリ</label>
+            <select id="articleCategory" required>
+              <option value="お知らせ">お知らせ</option>
+              <option value="イベント">イベント</option>
+              <option value="メディア">メディア</option>
+              <option value="プレスリリース">プレスリリース</option>
+              <option value="その他">その他</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>タイトル</label>
+            <input type="text" id="articleTitle" placeholder="記事タイトルを入力" required>
+          </div>
+          <div class="form-group">
+            <label>本文</label>
+            <textarea id="articleContent" placeholder="記事の本文を入力"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="editModalCancel">キャンセル</button>
+        <button class="btn btn-primary btn-sm" id="editModalSave">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirm Delete Modal -->
+  <div class="modal-overlay confirm-dialog" id="confirmModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>削除の確認</h3>
+        <button class="modal-close" id="confirmModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>この記事を削除してもよろしいですか？</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="confirmModalCancel">キャンセル</button>
+        <button class="btn btn-danger btn-sm" id="confirmModalDelete">削除</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Modal -->
+  <div class="modal-overlay" id="importModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>JSONインポート</h3>
+        <button class="modal-close" id="importModalClose">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.875rem; color: var(--text-medium); margin-bottom: 20px;">
+          既存の <code>news.json</code> ファイルを読み込みます。現在の記事データは上書きされます。
+        </p>
+        <div class="form-group">
+          <label>JSONファイルを選択</label>
+          <input type="file" id="importFile" accept=".json">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="importModalCancel">キャンセル</button>
+        <button class="btn btn-primary btn-sm" id="importModalLoad">読み込む</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

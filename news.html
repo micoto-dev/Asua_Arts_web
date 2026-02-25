@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ニュース | 有限会社アスアアーツ</title>
+  <meta name="description" content="有限会社アスアアーツの最新ニュース・お知らせ">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="apple-touch-icon" href="images/logo.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header id="header" class="scrolled">
+    <div class="container">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="Asua Arts">
+        </a>
+        <nav id="nav" aria-label="メインナビゲーション">
+          <a href="index.html#news">ニュース</a>
+          <a href="index.html#about">会社概要</a>
+          <a href="index.html#services">事業内容</a>
+          <a href="index.html#works">実績紹介</a>
+          <a href="index.html#representative">代表紹介</a>
+          <a href="index.html#contact" class="contact-btn">お問い合わせ</a>
+        </nav>
+        <button class="menu-toggle" id="menuToggle" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- News Detail -->
+  <main class="news-detail-page">
+    <div class="container">
+      <!-- Article detail: populated by JS when ?id= is present -->
+      <article class="news-detail" id="newsDetail" style="display: none;">
+        <div class="news-detail-header">
+          <a href="news.html" class="news-back-link">&larr; ニュース一覧へ戻る</a>
+          <div class="news-detail-meta">
+            <span class="news-date" id="detailDate"></span>
+            <span class="news-category" id="detailCategory"></span>
+          </div>
+          <h1 id="detailTitle"></h1>
+        </div>
+        <div class="news-detail-body" id="detailBody"></div>
+      </article>
+
+      <!-- News list: shown when no ?id= parameter -->
+      <div id="newsListPage" style="display: none;">
+        <div class="section-header fade-in">
+          <p class="section-title-en">News</p>
+          <h2 class="section-title-jp">ニュース</h2>
+          <div class="gold-line"></div>
+        </div>
+        <div class="news-list" id="newsListAll">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <img src="images/logo.png" alt="Asua Arts">
+        </div>
+        <nav class="footer-nav">
+          <a href="index.html#news">ニュース</a>
+          <a href="index.html#about">会社概要</a>
+          <a href="index.html#services">事業内容</a>
+          <a href="index.html#works">実績紹介</a>
+          <a href="index.html#representative">代表紹介</a>
+          <a href="index.html#contact">お問い合わせ</a>
+          <a href="privacy.html">プライバシーポリシー</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Asua Arts Co., Ltd. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop">
+    <svg viewBox="0 0 24 24">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
+  <!-- JavaScript -->
+  <script src="js/main.js"></script>
+</body>
+</html>

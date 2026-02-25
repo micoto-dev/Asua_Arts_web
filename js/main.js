@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeader();
   initMobileMenu();
   initHeroSlider();
+  initNews();
   initScrollAnimations();
   initBackToTop();
   initSmoothScroll();
@@ -115,6 +116,110 @@ function initHeroSlider() {
   });
 
   startSlider();
+}
+
+/**
+ * News Section
+ */
+function initNews() {
+  // Top page: show latest 3
+  var newsList = document.getElementById('newsList');
+  if (newsList) {
+    loadNewsList(newsList, 3);
+  }
+
+  // News list page: show all
+  var newsListAll = document.getElementById('newsListAll');
+  if (newsListAll) {
+    loadNewsList(newsListAll, 0);
+  }
+
+  // News detail page
+  var newsDetail = document.getElementById('newsDetail');
+  var newsListPage = document.getElementById('newsListPage');
+  if (newsDetail && newsListPage) {
+    var params = new URLSearchParams(window.location.search);
+    var articleId = params.get('id');
+    if (articleId) {
+      loadNewsDetail(articleId);
+    } else {
+      newsListPage.style.display = 'block';
+    }
+  }
+}
+
+function loadNewsList(container, limit) {
+  fetch('data/news.json')
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+      var sorted = data.news.slice().sort(function(a, b) {
+        return b.date.localeCompare(a.date);
+      });
+      var articles = limit > 0 ? sorted.slice(0, limit) : sorted;
+      var html = '';
+      articles.forEach(function(article) {
+        var dateFormatted = formatNewsDate(article.date);
+        html += '<a href="news.html?id=' + encodeURIComponent(article.id) + '" class="news-item fade-in">' +
+          '<span class="news-date">' + dateFormatted + '</span>' +
+          '<span class="news-category">' + article.category + '</span>' +
+          '<span class="news-title">' + article.title + '</span>' +
+          '</a>';
+      });
+
+      if (limit > 0 && data.news.length > limit) {
+        html += '<div class="news-more fade-in"><a href="news.html" class="news-more-link">ニュース一覧を見る</a></div>';
+      }
+
+      container.innerHTML = html;
+      observeFadeIn(container);
+    })
+    .catch(function() {});
+}
+
+function loadNewsDetail(articleId) {
+  fetch('data/news.json')
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+      var article = data.news.find(function(a) { return a.id === articleId; });
+      if (!article) {
+        document.getElementById('newsListPage').style.display = 'block';
+        return;
+      }
+
+      document.title = article.title + ' | 有限会社アスアアーツ';
+      document.getElementById('detailDate').textContent = formatNewsDate(article.date);
+      document.getElementById('detailCategory').textContent = article.category;
+      document.getElementById('detailTitle').textContent = article.title;
+
+      var bodyHtml = article.content
+        .split('\n')
+        .map(function(line) { return '<p>' + line + '</p>'; })
+        .join('');
+      document.getElementById('detailBody').innerHTML = bodyHtml;
+
+      document.getElementById('newsDetail').style.display = 'block';
+    })
+    .catch(function() {
+      document.getElementById('newsListPage').style.display = 'block';
+    });
+}
+
+function observeFadeIn(container) {
+  container.querySelectorAll('.fade-in').forEach(function(el) {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    observer.observe(el);
+  });
+}
+
+function formatNewsDate(dateStr) {
+  var parts = dateStr.split('-');
+  return parts[0] + '.' + parts[1] + '.' + parts[2];
 }
 
 /**
