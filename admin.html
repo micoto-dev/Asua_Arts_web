@@ -9,6 +9,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+  <!-- Quill.js Rich Text Editor -->
+  <link href="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/quill@2/dist/quill.js"></script>
+
+  <!-- DOMPurify for HTML sanitization -->
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+
   <style>
     :root {
       --gold: #C9A227;
@@ -314,7 +322,7 @@
       border-radius: 4px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
       width: 100%;
-      max-width: 600px;
+      max-width: 800px;
       max-height: 90vh;
       overflow-y: auto;
     }
@@ -397,6 +405,82 @@
     .form-group textarea {
       min-height: 150px;
       resize: vertical;
+    }
+
+    /* ===== Quill Editor ===== */
+    .quill-wrapper {
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+      background: var(--white);
+      transition: var(--transition);
+    }
+
+    .quill-wrapper:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.1);
+    }
+
+    .quill-wrapper .ql-toolbar {
+      border: none;
+      border-bottom: 1px solid var(--border-light);
+      background: var(--off-white);
+      font-family: var(--font-jp);
+    }
+
+    .quill-wrapper .ql-container {
+      border: none;
+      font-family: var(--font-jp);
+      font-size: 0.9375rem;
+      min-height: 250px;
+    }
+
+    .quill-wrapper .ql-editor {
+      min-height: 250px;
+      line-height: 1.8;
+      color: var(--text-dark);
+    }
+
+    .quill-wrapper .ql-editor.ql-blank::before {
+      color: var(--text-light);
+      font-style: normal;
+    }
+
+    .quill-wrapper .ql-editor img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 2px;
+    }
+
+    .quill-wrapper .ql-editor iframe {
+      max-width: 100%;
+      border-radius: 2px;
+    }
+
+    .ql-toolbar .ql-stroke {
+      stroke: var(--text-medium);
+    }
+
+    .ql-toolbar .ql-fill {
+      fill: var(--text-medium);
+    }
+
+    .ql-toolbar button:hover .ql-stroke,
+    .ql-toolbar .ql-active .ql-stroke {
+      stroke: var(--gold);
+    }
+
+    .ql-toolbar button:hover .ql-fill,
+    .ql-toolbar .ql-active .ql-fill {
+      fill: var(--gold);
+    }
+
+    .ql-toolbar .ql-picker-label:hover,
+    .ql-toolbar .ql-picker-label.ql-active {
+      color: var(--gold);
+    }
+
+    .ql-snow .ql-tooltip {
+      z-index: 1001;
     }
 
     .form-group select {
@@ -540,6 +624,7 @@
         <div class="admin-header-right">
           <button class="btn btn-secondary btn-sm" id="btnImport">JSONインポート</button>
           <button class="btn btn-primary btn-sm" id="btnExport">JSONダウンロード</button>
+          <button class="btn btn-sm" id="btnSaveServer" style="background: var(--gold-dark); color: var(--white);">サーバーに保存</button>
           <button class="btn btn-sm" id="btnLogout" style="background: none; color: var(--text-light);">ログアウト</button>
         </div>
       </div>
@@ -598,7 +683,9 @@
           </div>
           <div class="form-group">
             <label>本文</label>
-            <textarea id="articleContent" placeholder="記事の本文を入力"></textarea>
+            <div class="quill-wrapper">
+              <div id="articleContent"></div>
+            </div>
           </div>
         </form>
       </div>

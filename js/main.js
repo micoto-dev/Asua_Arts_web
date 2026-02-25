@@ -191,12 +191,30 @@ function loadNewsDetail(articleId) {
       document.getElementById('detailCategory').textContent = article.category;
       document.getElementById('detailTitle').textContent = article.title;
 
-      var bodyHtml = article.content
-        .split('\n')
-        .map(function(line) { return '<p>' + line + '</p>'; })
-        .join('');
-      document.getElementById('detailBody').innerHTML = bodyHtml;
+      var content = article.content || '';
+      var bodyHtml;
 
+      // Detect plain text (no HTML tags) for backward compatibility
+      if (!/<[a-z][\s\S]*>/i.test(content)) {
+        // Plain text: convert newlines to paragraphs
+        bodyHtml = content
+          .split('\n')
+          .map(function(line) { return '<p>' + line + '</p>'; })
+          .join('');
+      } else {
+        // Rich HTML content: sanitize with DOMPurify
+        if (typeof DOMPurify !== 'undefined') {
+          bodyHtml = DOMPurify.sanitize(content, {
+            ADD_TAGS: ['iframe'],
+            ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'src', 'width', 'height', 'style'],
+            ALLOWED_URI_REGEXP: /^(?:(?:https?|data):)/i
+          });
+        } else {
+          bodyHtml = content;
+        }
+      }
+
+      document.getElementById('detailBody').innerHTML = bodyHtml;
       document.getElementById('newsDetail').style.display = 'block';
     })
     .catch(function() {

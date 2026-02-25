@@ -1,5 +1,6 @@
 /**
  * Asua Arts - Admin News Management
+ * Rich Text Editor (Quill.js) Integration
  */
 
 // SHA-256 hash of the admin password
@@ -8,10 +9,16 @@ var PASSWORD_HASH = 'f2a145df8433ddd694635fb03545d3dad2e5a79c720016a975ac78ed961
 
 var newsData = [];
 var deleteTargetId = null;
+var quillEditor = null;
+
+// Maximum image width for compression
+var IMAGE_MAX_WIDTH = 800;
+var IMAGE_QUALITY = 0.7;
 
 document.addEventListener('DOMContentLoaded', function() {
   initLogin();
   initAdminUI();
+  initQuillEditor();
 });
 
 /**
@@ -91,6 +98,197 @@ function loadNewsFromServer() {
 }
 
 /**
+ * Initialize Quill Rich Text Editor
+ */
+function initQuillEditor() {
+  // Register custom video blot for iframe embedding
+  var BlockEmbed = Quill.import('blots/block/embed');
+
+  function VideoBlot() {
+    return Reflect.construct(BlockEmbed, arguments, VideoBlot);
+  }
+  Object.setPrototypeOf(VideoBlot.prototype, BlockEmbed.prototype);
+  Object.setPrototypeOf(VideoBlot, BlockEmbed);
+
+  VideoBlot.blotName = 'videoEmbed';
+  VideoBlot.tagName = 'iframe';
+  VideoBlot.className = 'ql-video-embed';
+
+  VideoBlot.create = function(url) {
+    var node = BlockEmbed.create.call(this);
+    node.setAttribute('src', url);
+    node.setAttribute('frameborder', '0');
+    node.setAttribute('allowfullscreen', 'true');
+    node.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+    node.setAttribute('width', '100%');
+    node.setAttribute('height', '360');
+    node.setAttribute('style', 'max-width:100%;aspect-ratio:16/9;');
+    return node;
+  };
+
+  VideoBlot.value = function(node) {
+    return node.getAttribute('src');
+  };
+
+  VideoBlot.formats = function(node) {
+    return {
+      src: node.getAttribute('src'),
+      width: node.getAttribute('width'),
+      height: node.getAttribute('height')
+    };
+  };
+
+  Quill.register(VideoBlot);
+
+  quillEditor = new Quill('#articleContent', {
+    theme: 'snow',
+    placeholder: '記事の本文を入力...',
+    modules: {
+      toolbar: {
+        container: [
+          [{ 'header': [2, 3, false] }],
+          ['bold', 'italic', 'underline'],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          ['link', 'image', 'video'],
+          ['clean']
+        ],
+        handlers: {
+          'image': imageHandler,
+          'video': videoHandler
+        }
+      }
+    }
+  });
+}
+
+/**
+ * Image Handler: file select -> compress -> insert as Base64
+ */
+function imageHandler() {
+  var input = document.createElement('input');
+  input.setAttribute('type', 'file');
+  input.setAttribute('accept', 'image/*');
+  input.click();
+
+  input.addEventListener('change', function() {
+    var file = input.files[0];
+    if (!file) return;
+
+    // Check file size (warn if > 5MB before compression)
+    if (file.size > 5 * 1024 * 1024) {
+      if (!confirm('画像サイズが5MBを超えています。圧縮して挿入しますか？')) return;
+    }
+
+    compressImage(file).then(function(dataUrl) {
+      var range = quillEditor.getSelection(true);
+      quillEditor.insertEmbed(range.index, 'image', dataUrl);
+      quillEditor.setSelection(range.index + 1);
+    }).catch(function() {
+      showToast('画像の読み込みに失敗しました');
+    });
+  });
+}
+
+/**
+ * Compress image using Canvas API
+ * Returns a Promise that resolves with a Base64 data URL
+ */
+function compressImage(file) {
+  return new Promise(function(resolve, reject) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      var img = new Image();
+      img.onload = function() {
+        var canvas = document.createElement('canvas');
+        var width = img.width;
+        var height = img.height;
+
+        // Scale down if wider than max width
+        if (width > IMAGE_MAX_WIDTH) {
+          height = Math.round(height * (IMAGE_MAX_WIDTH / width));
+          width = IMAGE_MAX_WIDTH;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        var ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convert to JPEG for compression (PNG files with transparency will lose it)
+        var dataUrl = canvas.toDataURL('image/jpeg', IMAGE_QUALITY);
+        resolve(dataUrl);
+      };
+      img.onerror = reject;
+      img.src = e.target.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+/**
+ * Video Handler: prompt for URL -> convert to embed -> insert iframe
+ */
+function videoHandler() {
+  var url = prompt('YouTube または Vimeo のURLを入力してください:');
+  if (!url) return;
+
+  var embedUrl = convertToEmbedUrl(url.trim());
+  if (!embedUrl) {
+    showToast('対応していないURLです（YouTube/Vimeoのみ対応）');
+    return;
+  }
+
+  var range = quillEditor.getSelection(true);
+  quillEditor.insertEmbed(range.index, 'videoEmbed', embedUrl);
+  quillEditor.setSelection(range.index + 1);
+}
+
+/**
+ * Convert YouTube/Vimeo URL to embed URL
+ */
+function convertToEmbedUrl(url) {
+  // YouTube patterns
+  var youtubePatterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+    /youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/
+  ];
+
+  for (var i = 0; i < youtubePatterns.length; i++) {
+    var match = url.match(youtubePatterns[i]);
+    if (match) {
+      return 'https://www.youtube.com/embed/' + match[1];
+    }
+  }
+
+  // Vimeo patterns
+  var vimeoMatch = url.match(/vimeo\.com\/(\d+)/);
+  if (vimeoMatch) {
+    return 'https://player.vimeo.com/video/' + vimeoMatch[1];
+  }
+
+  return null;
+}
+
+/**
+ * Check if content is plain text (no HTML tags)
+ */
+function isPlainText(content) {
+  return !/<[a-z][\s\S]*>/i.test(content);
+}
+
+/**
+ * Convert plain text to HTML for Quill editor
+ */
+function plainTextToHtml(text) {
+  return text
+    .split('\n')
+    .map(function(line) { return '<p>' + escapeHtml(line || '') + '</p>'; })
+    .join('');
+}
+
+/**
  * Admin UI Initialization
  */
 function initAdminUI() {
@@ -114,6 +312,9 @@ function initAdminUI() {
   document.getElementById('btnImport').addEventListener('click', function() {
     document.getElementById('importModal').classList.add('active');
   });
+
+  // Save to Server
+  document.getElementById('btnSaveServer').addEventListener('click', saveToServer);
 
   // Edit Modal
   document.getElementById('editModalClose').addEventListener('click', closeEditModal);
@@ -202,17 +403,27 @@ function openEditModal(article) {
     document.getElementById('articleDate').value = article.date;
     document.getElementById('articleCategory').value = article.category;
     document.getElementById('articleTitle').value = article.title;
-    document.getElementById('articleContent').value = article.content || '';
+
+    // Handle backward compatibility: plain text -> HTML
+    var content = article.content || '';
+    if (isPlainText(content)) {
+      quillEditor.root.innerHTML = plainTextToHtml(content);
+    } else {
+      quillEditor.root.innerHTML = content;
+    }
   } else {
     title.textContent = '記事を作成';
     document.getElementById('articleId').value = '';
     document.getElementById('articleDate').value = new Date().toISOString().split('T')[0];
     document.getElementById('articleCategory').value = 'お知らせ';
     document.getElementById('articleTitle').value = '';
-    document.getElementById('articleContent').value = '';
+    quillEditor.root.innerHTML = '';
   }
 
   modal.classList.add('active');
+
+  // Focus the editor after modal opens
+  setTimeout(function() { quillEditor.focus(); }, 100);
 }
 
 function closeEditModal() {
@@ -224,7 +435,14 @@ function saveArticle() {
   var date = document.getElementById('articleDate').value;
   var category = document.getElementById('articleCategory').value;
   var articleTitle = document.getElementById('articleTitle').value.trim();
-  var content = document.getElementById('articleContent').value.trim();
+
+  // Get HTML content from Quill editor
+  var content = quillEditor.root.innerHTML.trim();
+
+  // Quill uses <p><br></p> for empty content
+  if (content === '<p><br></p>' || content === '<p></p>') {
+    content = '';
+  }
 
   if (!date || !category || !articleTitle) {
     showToast('日付・カテゴリ・タイトルは必須です');
@@ -256,6 +474,40 @@ function saveArticle() {
 
   closeEditModal();
   renderNewsTable();
+}
+
+/**
+ * Save to Server via PHP API
+ */
+function saveToServer() {
+  var sorted = newsData.slice().sort(function(a, b) {
+    return b.date.localeCompare(a.date);
+  });
+
+  var jsonStr = JSON.stringify({ news: sorted }, null, 2);
+
+  sha256(PASSWORD_HASH).then(function(token) {
+    return fetch('api/save-news.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Auth-Token': token
+      },
+      body: jsonStr
+    });
+  }).then(function(response) {
+    if (!response.ok) throw new Error('Server error: ' + response.status);
+    return response.json();
+  }).then(function(result) {
+    if (result.success) {
+      showToast('サーバーに保存しました');
+    } else {
+      throw new Error(result.error || 'Unknown error');
+    }
+  }).catch(function(err) {
+    showToast('サーバー保存に失敗しました。JSONダウンロードをお使いください。');
+    console.error('Save to server failed:', err);
+  });
 }
 
 /**

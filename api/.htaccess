@@ -1,0 +1,12 @@
+# Deny directory listing
+Options -Indexes
+
+# Only allow access to PHP files
+<FilesMatch "\.php$">
+    Require all granted
+</FilesMatch>
+
+# Deny access to all other files
+<FilesMatch "^(?!.*\.php$)">
+    Require all denied
+</FilesMatch>
